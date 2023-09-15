@@ -1,3 +1,4 @@
+import os
 import requests
 import logging
 import config
@@ -6,6 +7,21 @@ from typing import Set, List, Optional, Union
 from cryptography.fernet import Fernet
 from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
+
+
+def create_project_structure() -> None:
+    directories = [
+        os.path.dirname(config.PATH_KEY_ENCRYPTION),
+        os.path.dirname(config.PATH_OUTPUT_FILE),
+        os.path.dirname(config.PATH_LOG_FILE),
+    ]
+
+    for directory in directories:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            print(f'Directory {directory} created successfully!')
+        else:
+            print(f'Directory {directory} already exists!')
 
 
 def setup_logging() -> None:
@@ -127,5 +143,6 @@ def main(start_url: str, key: Optional[bytes]) -> None:
 
 
 if __name__ == '__main__':
+    create_project_structure()
     key = generate_key(config.BOOL_ENCRYPT)
     main(config.START_URL, key)
