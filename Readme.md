@@ -67,5 +67,5 @@ This Python project is designed to crawl web pages starting from a given URL and
 ## Potencial Enhancements:
 
 1. Implemente multi-threading to speed up the crawling process.
-2. Integrate proxy supoort to bypass rate limit or IP bans.
+2. Integrate proxy support to bypass rate limit or IP bans.
 3. Implement a database storage option for scalability and more advanced querying capabilities.
