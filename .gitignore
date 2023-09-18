@@ -1,6 +1,7 @@
 __pycache__
 .venv
 config.py
+data
 download
 tests
 *.key
