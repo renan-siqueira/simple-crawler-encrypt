@@ -68,7 +68,7 @@ class LinkCrawler:
         """
             Encrypt a link using a given key.
         """
-        if not self.key:
+        if not self.cipher:
             return link
         
         encrypted_text = self.cipher.encrypt(link.encode())
@@ -87,10 +87,7 @@ class LinkCrawler:
     
     def _extract_links_from_html(self, content: bytes) -> List[str]:
         soup = BeautifulSoup(content, 'html.parser')
-        links = []
-        for a in soup.find_all('a', href=True):
-            links.append(a['href'])
-        return links
+        return [a['href'] for a in soup.find_all('a', href=True)]
 
     def _get_base_url(self, content: bytes) -> Optional[str]:
         soup = BeautifulSoup(content, 'html.parser')
@@ -131,8 +128,8 @@ class LinkCrawler:
                     to_visit.extend(relevant_links)
                     self.visited_links.update(relevant_links)
                 
-                except requests.RequestException as e:
-                    logging.error(f"Failed to retrieve {url} - Error: {str(e)}")
+                except (requests.RequestException, ValueError) as e:
+                    logging.error(f"Failed to retrieve/process {url} - Error: {str(e)}")
             
         return self.visited_links
     
